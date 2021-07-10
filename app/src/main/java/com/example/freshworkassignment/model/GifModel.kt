@@ -1,0 +1,17 @@
+package com.example.freshworkassignment.model
+
+import com.google.gson.annotations.SerializedName
+import java.io.Serializable
+
+data class GifModel (
+    @SerializedName("type") var type : String,
+    @SerializedName("title") var title : String,
+    @SerializedName("images") var images : ImageVariants) : Serializable
+
+data class ImageVariants (
+    @SerializedName("original") var original : Variant) : Serializable
+
+data class Variant (
+    @SerializedName("height") var height : String,
+    @SerializedName("width") var width : String,
+    @SerializedName("url") var gifUrl : String) : Serializable
