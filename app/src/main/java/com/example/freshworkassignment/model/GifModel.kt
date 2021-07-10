@@ -8,6 +8,7 @@ data class GifModel (
 
 data class GifData (
     @SerializedName("type") var type : String,
+    @SerializedName("id") var gifId : String,
     @SerializedName("title") var title : String,
     @SerializedName("images") var images : ImageVariants) : Serializable
 
