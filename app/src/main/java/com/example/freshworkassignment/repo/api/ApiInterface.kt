@@ -17,7 +17,7 @@ interface ApiInterface {
     fun getTrendingGif(
         @Query("api_key") apiKey: String = API_KEY,
         @Query("offset") offset: Int,
-        @Query("limit") limit: Int = LIMIT) : Call<ArrayList<GifModel>>
+        @Query("limit") limit: Int = LIMIT) : Call<GifModel>
 
     @GET("search")
     fun getSearchedGif(
@@ -25,6 +25,6 @@ interface ApiInterface {
         @Query("q") searchQuery: String,
         @Query("offset") offset: Int,
         @Query("limit") limit: Int = LIMIT,
-        @Query("lang") languageCode: String = LANGUAGE) : Call<ArrayList<GifModel>>
+        @Query("lang") languageCode: String = LANGUAGE) : Call<GifModel>
 
 }

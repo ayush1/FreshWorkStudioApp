@@ -3,19 +3,18 @@ package com.example.freshworkassignment.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.example.freshworkassignment.model.GifData
 import com.example.freshworkassignment.model.GifModel
-import com.example.freshworkassignment.repo.api.MainRepo
+import com.example.freshworkassignment.repo.MainRepo
 import java.util.ArrayList
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    private var mRepo : MainRepo
+    private var mRepo : MainRepo = MainRepo()
     var mUIError = MutableLiveData<String>()
-    var mUIResponse = MutableLiveData<ArrayList<GifModel>>()
+    var mUIResponse = MutableLiveData<ArrayList<GifData>>()
 
     init {
-        mRepo = MainRepo()
-
         mRepo.mSuccess.observeForever { data ->
             mUIResponse.value = data
         }
