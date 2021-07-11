@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
 
         initViewModel()
         initViews()
-//        mViewModel?.getTrendingGifData(0)
     }
 
     private fun initViews() {

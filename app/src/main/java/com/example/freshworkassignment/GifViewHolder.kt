@@ -1,11 +1,13 @@
 package com.example.freshworkassignment
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.freshworkassignment.eventbus.FavouriteEvent
 import com.example.freshworkassignment.model.GifData
 
 class GifViewHolder(view : View) : RecyclerView.ViewHolder(view) {
@@ -20,15 +22,26 @@ class GifViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         ivFavourite = view.findViewById(R.id.iv_favourite)
     }
 
-    fun bindViewData(gifData: GifData?) {
+    fun bindViewData(gifData: GifData, position: Int) {
         ivGif.let {
             Glide.with(mContext)
-                .load(gifData?.images?.original?.gifUrl)
+                .asGif()
+                .placeholder(R.drawable.placeholder_img)
+                .load(gifData.images.original.gifUrl)
                 .into(it)
         }
 
+        if(gifData.isFavourite)
+            ivFavourite.setImageDrawable(AppCompatResources.getDrawable(mContext, R.drawable.ic_like))
+        else
+            ivFavourite.setImageDrawable(AppCompatResources.getDrawable(mContext, R.drawable.ic_unlike))
+
+
         ivFavourite.setOnClickListener {
-            //TODO Add it to Favourite
+            gifData.isFavourite = !gifData.isFavourite
+
+            val favouriteEvent = FavouriteEvent(gifData, position)
+            favouriteEvent.post()
         }
     }
 }

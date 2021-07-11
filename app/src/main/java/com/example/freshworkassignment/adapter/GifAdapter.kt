@@ -9,6 +9,7 @@ import com.example.freshworkassignment.model.GifData
 
 class GifAdapter(gifListData: ArrayList<GifData>?) : RecyclerView.Adapter<GifViewHolder>() {
 
+    private var isFavouriteFragment: Boolean = false
     private var gifList: ArrayList<GifData>? = ArrayList()
 
     init {
@@ -17,7 +18,11 @@ class GifAdapter(gifListData: ArrayList<GifData>?) : RecyclerView.Adapter<GifVie
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GifViewHolder {
         val mInflater: LayoutInflater = LayoutInflater.from(parent.context)
-        val view = mInflater.inflate(R.layout.layout_item_view, parent,false)
+        var view = mInflater.inflate(R.layout.layout_item_view, parent,false)
+
+        if(isFavouriteFragment)
+            view = mInflater.inflate(R.layout.layout_grid_item_view, parent,false)
+
         val gifViewHolder = GifViewHolder(view)
 
         return gifViewHolder
@@ -25,12 +30,23 @@ class GifAdapter(gifListData: ArrayList<GifData>?) : RecyclerView.Adapter<GifVie
 
     override fun onBindViewHolder(holder: GifViewHolder, position: Int) {
         gifList?.get(position).let { gifData ->
-            holder.bindViewData(gifData)
+            if (gifData != null) {
+                holder.bindViewData(gifData, position)
+            }
         }
     }
 
     override fun getItemCount(): Int {
         return gifList?.size ?: 0
+    }
+
+    fun setFavaouriteAdapter(favourite: Boolean) {
+        isFavouriteFragment = favourite
+    }
+
+    fun updateItemView(gif : GifData, position: Int) {
+        gifList?.set(position, gif)
+        notifyItemChanged(position)
     }
 
 }

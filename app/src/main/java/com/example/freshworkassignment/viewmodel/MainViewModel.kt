@@ -13,6 +13,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private var mRepo : MainRepo = MainRepo()
     var mUIError = MutableLiveData<String>()
     var mUIResponse = MutableLiveData<ArrayList<GifData>>()
+    var favouriteGifList : ArrayList<GifData> = ArrayList()
+    var favouriteLiveData = MutableLiveData<ArrayList<GifData>>()
 
     init {
         mRepo.mSuccess.observeForever { data ->
@@ -30,5 +32,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getSearchGifData(queryString : String, offset : Int) {
         mRepo.getSearchResultGif(queryString, offset)
+    }
+
+    fun addOrRemoveFavourite(gif: GifData) {
+        if(gif.isFavourite)
+            favouriteGifList.add(gif)
+        else
+            favouriteGifList.remove(gif)
+
+        favouriteLiveData.value = favouriteGifList
     }
 }

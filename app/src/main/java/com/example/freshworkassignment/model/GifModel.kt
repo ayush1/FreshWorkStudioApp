@@ -10,7 +10,8 @@ data class GifData (
     @SerializedName("type") var type : String,
     @SerializedName("id") var gifId : String,
     @SerializedName("title") var title : String,
-    @SerializedName("images") var images : ImageVariants) : Serializable
+    @SerializedName("images") var images : ImageVariants,
+    var isFavourite : Boolean = false) : Serializable
 
 data class ImageVariants (
     @SerializedName("original") var original : Variant) : Serializable
