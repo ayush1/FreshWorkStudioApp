@@ -6,4 +6,7 @@ class Constants {
         FAVOURITE_EVENT
     }
 
+    companion object {
+        const val TABLE_NAME = "FavouriteTable"
+    }
 }

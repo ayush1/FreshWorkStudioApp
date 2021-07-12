@@ -1,10 +1,8 @@
 package com.example.freshworkassignment.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager2.widget.ViewPager2
 import com.example.freshworkassignment.R
 import com.example.freshworkassignment.viewmodel.MainViewModel
 import com.example.freshworkassignment.viewpager.ViewPagerAdapter
@@ -27,11 +25,6 @@ class MainActivity : AppCompatActivity() {
         val mViewPagerAdapter = ViewPagerAdapter(this)
         viewPager.apply {
             adapter = mViewPagerAdapter
-            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-                }
-            })
         }
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             if(position == 0)

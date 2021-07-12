@@ -13,8 +13,7 @@ import com.example.freshworkassignment.R
 import com.example.freshworkassignment.adapter.GifAdapter
 import com.example.freshworkassignment.callback.FavouriteClickCallback
 import com.example.freshworkassignment.eventbus.FavouriteEvent
-import com.example.freshworkassignment.itemdecorator.GridItemDecoration
-import com.example.freshworkassignment.model.GifData
+import com.example.freshworkassignment.model.GifUIModel
 import com.example.freshworkassignment.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.layout_favourite_fragment.*
 import org.greenrobot.eventbus.EventBus
@@ -23,9 +22,9 @@ import org.greenrobot.eventbus.Subscribe
 class FavouriteGifFragment : Fragment(), FavouriteClickCallback {
 
     private var favouriteGifViewModel: MainViewModel? = null
-    private var mView : View? = null
     private var mContext : Context? = null
-    private var mGifListData : ArrayList<GifData>? = ArrayList()
+    private var mGifListData : ArrayList<GifUIModel> = ArrayList()
+    private var mAdapter : GifAdapter? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,47 +39,50 @@ class FavouriteGifFragment : Fragment(), FavouriteClickCallback {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mView = inflater.inflate(R.layout.layout_favourite_fragment, container, false)
-        return mView
+        return inflater.inflate(R.layout.layout_favourite_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initRecyclerView()
 
-        mGifListData = favouriteGifViewModel?.favouriteGifList
+        mGifListData = favouriteGifViewModel?.getFavouriteGifFromDb() ?: ArrayList()
         populateGif()
 
         favouriteGifViewModel?.favouriteLiveData?.observe(viewLifecycleOwner,
             { gifList ->
-//                mGifListData = gifList
-                rv_grid_gif.adapter?.notifyDataSetChanged()
+                mGifListData = gifList
+                populateGif()
             })
 
         favouriteGifViewModel?.mUIError?.observe(viewLifecycleOwner,
             { error -> populateError(error) })
     }
 
-    private fun populateGif() {
-        val manager =  GridLayoutManager(mContext, 2)
-        progress_bar.visibility = View.GONE
-
-        rv_grid_gif.apply {
-            layoutManager = manager
-            hasFixedSize()
-            addItemDecoration(GridItemDecoration())
-            adapter = GifAdapter()
-            (adapter as GifAdapter).setFavaouriteAdapter(true)
-        }
-    }
-
-    private fun populateError(error: String) {
-        Log.d("Fragment_response", error)
-    }
-
     private fun initViewModel() {
         favouriteGifViewModel = activity?.run {
             ViewModelProvider(this).get(MainViewModel::class.java)
         }
+    }
+
+    private fun initRecyclerView() {
+        val manager =  GridLayoutManager(mContext, 2)
+        rv_grid_gif.apply {
+            layoutManager = manager
+            hasFixedSize()
+            mAdapter = GifAdapter()
+            adapter = mAdapter
+            mAdapter?.setFavouriteAdapter(true)
+        }
+    }
+
+    private fun populateGif() {
+        progress_bar.visibility = View.GONE
+        mAdapter?.setData(mGifListData)
+    }
+
+    private fun populateError(error: String) {
+        Log.d("Fragment_response", error)
     }
 
     @Subscribe

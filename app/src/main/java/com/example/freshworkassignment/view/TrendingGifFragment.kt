@@ -17,7 +17,7 @@ import com.example.freshworkassignment.R
 import com.example.freshworkassignment.adapter.GifAdapter
 import com.example.freshworkassignment.callback.FavouriteClickCallback
 import com.example.freshworkassignment.eventbus.FavouriteEvent
-import com.example.freshworkassignment.model.GifData
+import com.example.freshworkassignment.model.GifUIModel
 import com.example.freshworkassignment.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.layout_trending_fragment.*
 import org.greenrobot.eventbus.EventBus
@@ -26,9 +26,8 @@ import org.greenrobot.eventbus.Subscribe
 class TrendingGifFragment : Fragment(), FavouriteClickCallback {
 
     private var trendingGifViewModel: MainViewModel? = null
-    private var mView : View? = null
     private var mContext : Context? = null
-    private var mGifListData : ArrayList<GifData> = ArrayList()
+    private var mGifListData : ArrayList<GifUIModel> = ArrayList()
     private var mAdapter : GifAdapter? = null
     private var isLoading : Boolean = false
     private var page : Int = 0
@@ -46,8 +45,7 @@ class TrendingGifFragment : Fragment(), FavouriteClickCallback {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mView = inflater.inflate(R.layout.layout_trending_fragment, container, false)
-        return mView
+        return inflater.inflate(R.layout.layout_trending_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

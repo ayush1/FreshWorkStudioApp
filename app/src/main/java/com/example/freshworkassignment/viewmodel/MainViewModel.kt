@@ -3,21 +3,32 @@ package com.example.freshworkassignment.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.freshworkassignment.model.GifData
+import com.example.freshworkassignment.db.AppDatabase
+import com.example.freshworkassignment.db.dao.FavouriteDao
+import com.example.freshworkassignment.db.entity.Favourites
+import com.example.freshworkassignment.mapper.MapperRawToUIData
+import com.example.freshworkassignment.model.GifUIModel
 import com.example.freshworkassignment.repo.MainRepo
-import java.util.ArrayList
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private var mRepo : MainRepo = MainRepo()
+    private var favouriteDao : FavouriteDao? = null
+    private var mapperRawToUIData : MapperRawToUIData = MapperRawToUIData()
     var mUIError = MutableLiveData<String>()
-    var mUIResponse = MutableLiveData<ArrayList<GifData>>()
-    var favouriteLiveData = MutableLiveData<ArrayList<GifData>>()
-    var favouriteGifList : ArrayList<GifData> = ArrayList()
+    var mUIResponse = MutableLiveData<ArrayList<GifUIModel>>()
+    var favouriteLiveData = MutableLiveData<ArrayList<GifUIModel>>()
 
     init {
+        val database = AppDatabase.getDatabase(application)
+        favouriteDao = database.favouriteDao()
+
         mRepo.mSuccess.observeForever { data ->
-            mUIResponse.value = data
+
+            mUIResponse.value = mapperRawToUIData.convertToUiData(data, getGifIdsFromDb())
         }
 
         mRepo.mError.observeForever { error ->
@@ -33,12 +44,42 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         mRepo.getSearchResultGif(queryString, offset)
     }
 
-    fun addOrRemoveFavourite(gif: GifData) {
+    fun addOrRemoveFavourite(gif: GifUIModel) {
         if(gif.isFavourite)
-            favouriteGifList.add(gif)
+            insertFavouriteGifInDb(gif)
         else
-            favouriteGifList.remove(gif)
+            deleteFavouriteGifInDb(gif)
 
-        favouriteLiveData.value = favouriteGifList
+        favouriteLiveData.value = getFavouriteGifFromDb()
+    }
+
+    private fun insertFavouriteGifInDb(daoData: GifUIModel) {
+        runBlocking(Dispatchers.Default){
+            withContext(Dispatchers.Default) {
+                favouriteDao?.insert(mapperRawToUIData.convertUIToDaoData(daoData))
+            }
+            return@runBlocking
+        }
+    }
+
+    private fun deleteFavouriteGifInDb(daoData: GifUIModel) {
+        runBlocking(Dispatchers.Default){
+            withContext(Dispatchers.Default) {
+                favouriteDao?.delete(mapperRawToUIData.convertUIToDaoData(daoData))
+            }
+            return@runBlocking
+        }
+    }
+
+    fun getFavouriteGifFromDb() : ArrayList<GifUIModel> = runBlocking(Dispatchers.Default) {
+        return@runBlocking withContext(Dispatchers.Default) {
+            mapperRawToUIData.convertDaoToUIData(favouriteDao?.getAll() as ArrayList<Favourites>)
+        }
+    }
+
+    fun getGifIdsFromDb() : ArrayList<String> = runBlocking(Dispatchers.Default) {
+        return@runBlocking withContext(Dispatchers.Default) {
+            favouriteDao?.getAllGifIds() as ArrayList<String>
+        }
     }
 }

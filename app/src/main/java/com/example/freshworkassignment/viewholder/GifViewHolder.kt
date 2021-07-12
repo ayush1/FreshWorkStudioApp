@@ -1,4 +1,4 @@
-package com.example.freshworkassignment
+package com.example.freshworkassignment.viewholder
 
 import android.content.Context
 import android.view.View
@@ -7,29 +7,24 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.freshworkassignment.R
 import com.example.freshworkassignment.eventbus.FavouriteEvent
-import com.example.freshworkassignment.model.GifData
+import com.example.freshworkassignment.model.GifUIModel
 
 class GifViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
-    private var mContext : Context
-    private var ivGif : ImageView
-    private var ivFavourite : ImageView
+    private var mContext : Context = view.context
+    private var ivGif : ImageView = view.findViewById(R.id.iv_gif)
+    private var ivFavourite : ImageView = view.findViewById(R.id.iv_favourite)
 
-    init {
-        mContext = view.context
-        ivGif = view.findViewById(R.id.iv_gif)
-        ivFavourite = view.findViewById(R.id.iv_favourite)
-    }
-
-    fun bindViewData(gifData: GifData, position: Int) {
+    fun bindViewData(gifData: GifUIModel, position: Int) {
         val requestOption = RequestOptions()
         requestOption.placeholder(R.drawable.placeholder_img)
 
         ivGif.let {
             Glide.with(mContext)
                 .setDefaultRequestOptions(requestOption)
-                .load(gifData.images.original.gifUrl)
+                .load(gifData.gifUrl)
                 .into(it)
         }
 
@@ -37,7 +32,6 @@ class GifViewHolder(view : View) : RecyclerView.ViewHolder(view) {
             ivFavourite.setImageDrawable(AppCompatResources.getDrawable(mContext, R.drawable.ic_like))
         else
             ivFavourite.setImageDrawable(AppCompatResources.getDrawable(mContext, R.drawable.ic_unlike))
-
 
         ivFavourite.setOnClickListener {
             gifData.isFavourite = !gifData.isFavourite
