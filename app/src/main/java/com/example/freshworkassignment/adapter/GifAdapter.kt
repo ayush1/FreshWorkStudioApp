@@ -7,14 +7,10 @@ import com.example.freshworkassignment.GifViewHolder
 import com.example.freshworkassignment.R
 import com.example.freshworkassignment.model.GifData
 
-class GifAdapter(gifListData: ArrayList<GifData>?) : RecyclerView.Adapter<GifViewHolder>() {
+class GifAdapter() : RecyclerView.Adapter<GifViewHolder>() {
 
     private var isFavouriteFragment: Boolean = false
     private var gifList: ArrayList<GifData>? = ArrayList()
-
-    init {
-        gifList = gifListData
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GifViewHolder {
         val mInflater: LayoutInflater = LayoutInflater.from(parent.context)
@@ -47,6 +43,11 @@ class GifAdapter(gifListData: ArrayList<GifData>?) : RecyclerView.Adapter<GifVie
     fun updateItemView(gif : GifData, position: Int) {
         gifList?.set(position, gif)
         notifyItemChanged(position)
+    }
+
+    fun setData(gifData : ArrayList<GifData>) {
+        gifList = gifData
+        notifyDataSetChanged()
     }
 
 }

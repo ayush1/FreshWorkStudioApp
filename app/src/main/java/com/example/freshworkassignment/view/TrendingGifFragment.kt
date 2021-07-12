@@ -2,7 +2,6 @@ package com.example.freshworkassignment.view
 
 import android.content.Context
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,8 +28,10 @@ class TrendingGifFragment : Fragment(), FavouriteClickCallback {
     private var trendingGifViewModel: MainViewModel? = null
     private var mView : View? = null
     private var mContext : Context? = null
-    private var mGifListData : ArrayList<GifData>? = ArrayList()
+    private var mGifListData : ArrayList<GifData> = ArrayList()
     private var mAdapter : GifAdapter? = null
+    private var isLoading : Boolean = false
+    private var page : Int = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -52,8 +52,9 @@ class TrendingGifFragment : Fragment(), FavouriteClickCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initRecyclerview()
 
-        trendingGifViewModel?.getTrendingGifData(0)
+        trendingGifViewModel?.getTrendingGifData(page)
 
         et_search.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
@@ -68,16 +69,12 @@ class TrendingGifFragment : Fragment(), FavouriteClickCallback {
 
         trendingGifViewModel?.mUIResponse?.observe(viewLifecycleOwner,
             { gifList ->
-                mGifListData = gifList
+                mGifListData.addAll(gifList)
                 populateGif()
             })
 
         trendingGifViewModel?.mUIError?.observe(viewLifecycleOwner,
             { error -> populateError(error) })
-    }
-
-    private fun populateError(error: String) {
-        Log.d("Fragment_response", error)
     }
 
     private fun initViewModel() {
@@ -86,42 +83,39 @@ class TrendingGifFragment : Fragment(), FavouriteClickCallback {
         }
     }
 
-    private fun populateGif() {
-        val manager =  LinearLayoutManager(mContext, RecyclerView.VERTICAL, false)
-        pg_bar.visibility = View.GONE
+    private fun initRecyclerview() {
+        val mLayoutManager =  LinearLayoutManager(mContext, RecyclerView.VERTICAL, false)
 
         rv_gif.apply {
-            layoutManager = manager
+            layoutManager = mLayoutManager
             hasFixedSize()
-            mAdapter = GifAdapter(mGifListData)
+            mAdapter = GifAdapter()
             adapter = mAdapter
 
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    if(dy > 0) {
-                        val layoutmanager = recyclerView.layoutManager as LinearLayoutManager
-                        val totalItemCount = layoutmanager.itemCount
-                        val visibleItem = recyclerView.childCount
-                        val prevVisibleItem = layoutmanager.findFirstVisibleItemPosition()
 
-                        /*if (loading) {
-                            if (totalItemCount > previousTotal) {
-
-                                previousTotal = totalItemCount;
-                                page++;
-                            }
+                    //Pagination
+                    if (!isLoading) {
+                        if (mLayoutManager.findLastCompletelyVisibleItemPosition() == mGifListData.size - 1) {
+                            trendingGifViewModel?.getTrendingGifData(++page)
+                            isLoading = true
                         }
-                        if (!loading
-                            && (prevVisibleItem + visibleThreshold + visibleItem) >= totalItemCount) {
-                            page++;
-                            // call pagination and pass page limit
-                            getPagination();
-                        }*/
                     }
                 }
             })
         }
+    }
+
+    private fun populateError(error: String) {
+        Log.d("Fragment_response", error)
+    }
+
+    private fun populateGif() {
+        pg_bar.visibility = View.GONE
+        isLoading = false
+        mAdapter?.setData(mGifListData)
     }
 
     @Subscribe
@@ -131,6 +125,4 @@ class TrendingGifFragment : Fragment(), FavouriteClickCallback {
         mAdapter?.updateItemView(event.gifData, event.position)
         event.isConsumed = true
     }
-
-
 }

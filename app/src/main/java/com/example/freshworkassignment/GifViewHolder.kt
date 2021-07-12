@@ -6,7 +6,7 @@ import android.widget.ImageView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.freshworkassignment.eventbus.FavouriteEvent
 import com.example.freshworkassignment.model.GifData
 
@@ -23,10 +23,12 @@ class GifViewHolder(view : View) : RecyclerView.ViewHolder(view) {
     }
 
     fun bindViewData(gifData: GifData, position: Int) {
+        val requestOption = RequestOptions()
+        requestOption.placeholder(R.drawable.placeholder_img)
+
         ivGif.let {
             Glide.with(mContext)
-                .asGif()
-                .placeholder(R.drawable.placeholder_img)
+                .setDefaultRequestOptions(requestOption)
                 .load(gifData.images.original.gifUrl)
                 .into(it)
         }

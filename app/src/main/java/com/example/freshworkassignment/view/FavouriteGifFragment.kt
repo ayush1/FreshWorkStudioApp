@@ -68,7 +68,7 @@ class FavouriteGifFragment : Fragment(), FavouriteClickCallback {
             layoutManager = manager
             hasFixedSize()
             addItemDecoration(GridItemDecoration())
-            adapter = GifAdapter(mGifListData)
+            adapter = GifAdapter()
             (adapter as GifAdapter).setFavaouriteAdapter(true)
         }
     }

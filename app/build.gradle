@@ -61,4 +61,7 @@ dependencies {
 
     //Eventbus
     implementation "org.greenrobot:eventbus:$event_bus_version"
+
+    //paging3
+    implementation "androidx.paging:paging-runtime:$paging_version"
 }
