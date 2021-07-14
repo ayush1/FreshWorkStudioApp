@@ -5,4 +5,5 @@
     <string name="search">Search GIF</string>
     <string name="Trending">Trending</string>
     <string name="favorite">Favorite</string>
+    <string name="no_data_found">No data found</string>
 </resources>

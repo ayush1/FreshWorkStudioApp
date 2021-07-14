@@ -1,7 +1,7 @@
 package com.example.freshworkassignment.repo
 
 import androidx.lifecycle.MutableLiveData
-import com.example.freshworkassignment.common.ErrorEnum
+import com.example.freshworkassignment.common.Constants
 import com.example.freshworkassignment.model.GifData
 import com.example.freshworkassignment.model.GifModel
 import com.example.freshworkassignment.repo.api.ApiClient
@@ -22,7 +22,7 @@ class MainRepo {
         private val apiInterface = client?.create(ApiInterface::class.java)
     }
 
-    var mError: MutableLiveData<ErrorEnum> = MutableLiveData()
+    var mError: MutableLiveData<Constants.ErrorEnum> = MutableLiveData()
     val mSuccess: MutableLiveData<ArrayList<GifData>> = MutableLiveData()
 
     /*
@@ -39,7 +39,7 @@ class MainRepo {
             }
 
             override fun onFailure(call: Call<GifModel>, t: Throwable) {
-                mError.value = ErrorEnum.UNABLE_TO_FETCH_DATA
+                mError.value = Constants.ErrorEnum.UNABLE_TO_FETCH_DATA
             }
         })
     }
@@ -58,7 +58,7 @@ class MainRepo {
             }
 
             override fun onFailure(call: Call<GifModel>, t: Throwable) {
-                mError.value = ErrorEnum.UNABLE_TO_FETCH_DATA
+                mError.value = Constants.ErrorEnum.UNABLE_TO_FETCH_DATA
             }
 
         })

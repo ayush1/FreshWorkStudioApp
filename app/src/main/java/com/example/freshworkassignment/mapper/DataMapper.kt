@@ -15,7 +15,7 @@ class DataMapper {
 
         gifList.forEach { gifData ->
             gifUIModelList.add(
-                GifUIModel(gifData.gifId, gifData.title, gifData.type, gifData.images.original.gifUrl,
+                GifUIModel(gifData.gifId, gifData.title, gifData.type, gifData.images.variant.gifUrl,
                     gifIdsFromDb.contains(gifData.gifId)))
         }
         return gifUIModelList

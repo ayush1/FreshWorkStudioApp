@@ -5,7 +5,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.freshworkassignment.common.ErrorEnum
+import com.example.freshworkassignment.common.Constants
 import com.example.freshworkassignment.db.AppDatabase
 import com.example.freshworkassignment.db.dao.FavouriteDao
 import com.example.freshworkassignment.db.entity.Favourites
@@ -55,7 +55,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             override fun onUnavailable() {
-                mUIError.value = ErrorEnum.INTERNET_CONNECTION.msg
+                mUIError.value = Constants.ErrorEnum.INTERNET_CONNECTION.msg
             }
         })
     }
@@ -67,7 +67,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         if(Utils.isNetworkAvailable())
             mRepo.getTrendingGifs(offset)
         else
-            mUIError.value = ErrorEnum.INTERNET_CONNECTION.msg
+            mUIError.value = Constants.ErrorEnum.INTERNET_CONNECTION.msg
     }
 
     /*
@@ -122,7 +122,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             if (list.size > 0)
                 favoriteLiveData.postValue(dataMapper.convertDaoToUIData(list))
             else
-                emptyFavoriteLiveData.postValue(ErrorEnum.NO_DATA_FOUND.msg)
+                emptyFavoriteLiveData.postValue(Constants.EmptyEnum.NO_FAVORITE_DATA_FOUND.msg)
         }
     }
 
@@ -133,5 +133,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return@runBlocking withContext(Dispatchers.Default) {
             favouriteDao?.getAllGifIds() as ArrayList<String>
         }
+    }
+
+    /*
+    get item index which is removed from the favorite list
+     */
+    fun getItemIndex(gifData: GifUIModel) : Int{
+        mUIResponse.value?.forEachIndexed { index, gifUIModel ->
+            if(gifData.gifId.equals(gifUIModel.gifId, true))
+                return index
+        }
+        return -1
     }
 }

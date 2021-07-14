@@ -13,6 +13,7 @@ import com.example.freshworkassignment.R
 import com.example.freshworkassignment.adapter.GifAdapter
 import com.example.freshworkassignment.callback.FavouriteClickCallback
 import com.example.freshworkassignment.eventbus.FavouriteEvent
+import com.example.freshworkassignment.eventbus.UpdateDataEvent
 import com.example.freshworkassignment.model.GifUIModel
 import com.example.freshworkassignment.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.error_layout.*
@@ -56,7 +57,7 @@ class FavouriteGifFragment : Fragment(), FavouriteClickCallback {
             })
 
         favouriteGifViewModel?.emptyFavoriteLiveData?.observe(viewLifecycleOwner,
-            { error -> populateError(error) })
+            { emptyMsg -> populateEmptyOrErrorView(emptyMsg) })
     }
 
     private fun initViewModel() {
@@ -88,18 +89,24 @@ class FavouriteGifFragment : Fragment(), FavouriteClickCallback {
     /*
     show empty favorite list
      */
-    private fun populateError(error: String) {
+    private fun populateEmptyOrErrorView(msg: String) {
         rv_grid_gif.visibility = View.GONE
         ll_error.visibility = View.VISIBLE
         iv_error.setImageDrawable(mContext?.let { ContextCompat.getDrawable(it, R.drawable.img_no_favorite) })
         tv_error_title.text = getString(R.string.no_favorites)
-        tv_error_msg.text = error
+        tv_error_msg.text = msg
     }
 
     @Subscribe
     override fun onFavouriteClicked(event: FavouriteEvent) {
-        if(event.isConsumed) return
+        if(event.isConsumed || !isVisible) return
         favouriteGifViewModel?.addOrRemoveFavourite(event.gifData)
+        val index = favouriteGifViewModel?.getItemIndex(event.gifData)
+
+        //this event is used remove the favorite from the trending/search data
+        val updateEvent = UpdateDataEvent(event.gifData, index!!)
+        updateEvent.post()
+
         event.isConsumed = true
     }
 

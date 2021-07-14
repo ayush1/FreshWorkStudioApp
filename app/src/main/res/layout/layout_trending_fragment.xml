@@ -21,13 +21,13 @@
     <FrameLayout
         android:id="@+id/fl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp5">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_gif"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" />
+            android:layout_height="850dp" />
 
         <ProgressBar
             android:id="@+id/pg_bar"
@@ -40,6 +40,6 @@
 
     <include
         android:layout_width="match_parent"
-        android:layout_height="750dp"
+        android:layout_height="850dp"
         layout="@layout/error_layout" />
 </LinearLayout>
