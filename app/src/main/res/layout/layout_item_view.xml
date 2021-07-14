@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="300dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp"
-    android:layout_marginTop="10dp"
-    app:cardCornerRadius="4dp">
+    android:layout_marginStart="@dimen/dp20"
+    android:layout_marginEnd="@dimen/dp20"
+    android:layout_marginTop="@dimen/dp10"
+    app:cardCornerRadius="@dimen/dp4">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -20,12 +20,12 @@
             android:scaleType="centerCrop" />
 
         <ImageView
-            android:id="@+id/iv_favourite"
+            android:id="@+id/iv_favorite"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_gravity="end"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
             android:padding="5dp"
             android:background="@drawable/shape_bg_favourite"
             android:src="@drawable/ic_unlike" />

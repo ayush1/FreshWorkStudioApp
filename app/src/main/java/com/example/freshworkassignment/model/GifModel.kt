@@ -14,7 +14,7 @@ data class GifData (
     var isFavourite : Boolean = false) : Serializable
 
 data class ImageVariants (
-    @SerializedName("original") var original : Variant) : Serializable
+    @SerializedName("fixed_height") var original : Variant) : Serializable
 
 data class Variant (
     @SerializedName("height") var height : String,

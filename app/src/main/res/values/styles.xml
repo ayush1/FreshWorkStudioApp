@@ -1,0 +1,43 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Regular size font style-->
+    <style name="headingRegularStyle">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="txt_regular_large" parent="headingRegularStyle">
+        <item name="android:textColor">@color/grey_600</item>
+        <item name="android:textSize">@dimen/dp10</item>
+    </style>
+
+    <style name="txt_regular_msg_x_large" parent="headingRegularStyle">
+        <item name="android:textColor">@color/grey_600</item>
+        <item name="android:textSize">@dimen/dp14</item>
+    </style>
+
+    <!--Medium size font style-->
+    <style name="headingMediumStyle">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="txt_medium_x_large" parent="headingMediumStyle">
+        <item name="android:textColor">@color/grey_600</item>
+        <item name="android:textSize">@dimen/dp12</item>
+    </style>
+
+    <style name="txt_retry_large" parent="headingMediumStyle">
+        <item name="android:textColor">@color/grey_600</item>
+        <item name="android:textSize">@dimen/dp12</item>
+    </style>
+
+    <!--Bold size font style-->
+    <style name="headingBoldStyle">
+        <item name="android:textColor">@color/grey_600</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="txt_bold_xx_large" parent="headingBoldStyle">
+        <item name="android:textSize">@dimen/dp16</item>
+    </style>
+
+</resources>

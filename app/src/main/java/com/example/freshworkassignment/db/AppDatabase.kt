@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.freshworkassignment.db.dao.FavouriteDao
 import com.example.freshworkassignment.db.entity.Favourites
 
-@Database(entities = arrayOf(Favourites::class), version = 1)
+@Database(entities = [Favourites::class], version = 1)
 abstract class AppDatabase : RoomDatabase(){
 
     abstract fun favouriteDao() : FavouriteDao

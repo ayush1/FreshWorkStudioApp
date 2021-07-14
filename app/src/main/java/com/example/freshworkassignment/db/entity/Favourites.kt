@@ -12,4 +12,4 @@ class Favourites (
     @ColumnInfo(name = "type") val type : String,
     @ColumnInfo(name = "title") val title : String,
     @ColumnInfo(name = "gifurl") val gifUrl : String,
-    @ColumnInfo(name = "favaourite") val isFavourite : Boolean)
+    @ColumnInfo(name = "favorite") val isFavourite : Boolean)

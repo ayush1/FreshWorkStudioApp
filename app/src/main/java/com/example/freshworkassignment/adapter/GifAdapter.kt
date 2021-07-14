@@ -34,10 +34,16 @@ class GifAdapter : RecyclerView.Adapter<GifViewHolder>() {
         return gifList?.size ?: 0
     }
 
+    /*
+    Method helps in using the same adapter for FavoriteFragment as well
+     */
     fun setFavouriteAdapter(favourite: Boolean) {
         isFavouriteFragment = favourite
     }
 
+    /*
+    Method to update the item when user marked/unmarked the gif favorite
+     */
     fun updateItemView(gif : GifUIModel, position: Int) {
         gifList?.set(position, gif)
         notifyItemChanged(position)

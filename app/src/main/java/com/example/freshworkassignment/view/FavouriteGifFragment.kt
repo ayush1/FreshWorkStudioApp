@@ -2,10 +2,10 @@ package com.example.freshworkassignment.view
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,6 +15,7 @@ import com.example.freshworkassignment.callback.FavouriteClickCallback
 import com.example.freshworkassignment.eventbus.FavouriteEvent
 import com.example.freshworkassignment.model.GifUIModel
 import com.example.freshworkassignment.viewmodel.MainViewModel
+import kotlinx.android.synthetic.main.error_layout.*
 import kotlinx.android.synthetic.main.layout_favourite_fragment.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -46,16 +47,15 @@ class FavouriteGifFragment : Fragment(), FavouriteClickCallback {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
 
-        mGifListData = favouriteGifViewModel?.getFavouriteGifFromDb() ?: ArrayList()
-        populateGif()
+       favouriteGifViewModel?.getFavouriteGifFromDb()
 
-        favouriteGifViewModel?.favouriteLiveData?.observe(viewLifecycleOwner,
+        favouriteGifViewModel?.favoriteLiveData?.observe(viewLifecycleOwner,
             { gifList ->
                 mGifListData = gifList
-                populateGif()
+                populateFavoriteGif()
             })
 
-        favouriteGifViewModel?.mUIError?.observe(viewLifecycleOwner,
+        favouriteGifViewModel?.emptyFavoriteLiveData?.observe(viewLifecycleOwner,
             { error -> populateError(error) })
     }
 
@@ -76,13 +76,24 @@ class FavouriteGifFragment : Fragment(), FavouriteClickCallback {
         }
     }
 
-    private fun populateGif() {
-        progress_bar.visibility = View.GONE
+    /*
+    Inflate favorite gifs
+     */
+    private fun populateFavoriteGif() {
+        rv_grid_gif.visibility =  View.VISIBLE
+        ll_error.visibility = View.GONE
         mAdapter?.setData(mGifListData)
     }
 
+    /*
+    show empty favorite list
+     */
     private fun populateError(error: String) {
-        Log.d("Fragment_response", error)
+        rv_grid_gif.visibility = View.GONE
+        ll_error.visibility = View.VISIBLE
+        iv_error.setImageDrawable(mContext?.let { ContextCompat.getDrawable(it, R.drawable.img_no_favorite) })
+        tv_error_title.text = getString(R.string.no_favorites)
+        tv_error_msg.text = error
     }
 
     @Subscribe
@@ -92,4 +103,8 @@ class FavouriteGifFragment : Fragment(), FavouriteClickCallback {
         event.isConsumed = true
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
 }

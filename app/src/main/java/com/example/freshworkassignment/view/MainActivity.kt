@@ -28,15 +28,13 @@ class MainActivity : AppCompatActivity() {
         }
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             if(position == 0)
-                tab.text = "Trending"
+                tab.text = getString(R.string.Trending)
             else
-                tab.text = "Favourite"
+                tab.text = getString(R.string.favorite)
         }.attach()
-
     }
 
     private fun initViewModel() {
         mViewModel = ViewModelProvider.AndroidViewModelFactory(application).create(MainViewModel::class.java)
     }
-
 }

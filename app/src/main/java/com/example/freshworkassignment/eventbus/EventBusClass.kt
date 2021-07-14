@@ -4,11 +4,7 @@ import org.greenrobot.eventbus.EventBus
 
 object EventBusClass : IEventBus {
 
-    private val mEventBus: EventBus
-
-    init {
-        mEventBus = EventBus.getDefault()
-    }
+    private val mEventBus: EventBus = EventBus.getDefault()
 
     override fun <T : Event?> postEvent(event: T) {
         mEventBus.post(event)

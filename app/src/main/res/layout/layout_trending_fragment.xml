@@ -8,16 +8,18 @@
         android:id="@+id/et_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp20"
+        android:layout_marginTop="@dimen/dp8"
+        android:layout_marginEnd="@dimen/dp20"
+        android:background="@drawable/shape_bg_search"
+        android:drawableStart="@drawable/ic_search"
+        android:hint="@string/search"
         android:imeOptions="actionSearch"
         android:inputType="text"
-        android:drawableEnd="@drawable/ic_search"
-        android:background="@drawable/shape_bg_search"
-        android:padding="3dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="8dp" />
+        android:padding="@dimen/dp3" />
 
     <FrameLayout
+        android:id="@+id/fl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -33,5 +35,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
+
     </FrameLayout>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="750dp"
+        layout="@layout/error_layout" />
 </LinearLayout>

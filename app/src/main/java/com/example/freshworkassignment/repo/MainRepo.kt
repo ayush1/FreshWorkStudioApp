@@ -25,6 +25,9 @@ class MainRepo {
     var mError: MutableLiveData<ErrorEnum> = MutableLiveData()
     val mSuccess: MutableLiveData<ArrayList<GifData>> = MutableLiveData()
 
+    /*
+    Method to get the trending gif results
+     */
     fun getTrendingGifs(offset : Int) {
         val trendingGifs = apiInterface?.getTrendingGif(API_KEY, offset, LIMIT)
 
@@ -38,11 +41,12 @@ class MainRepo {
             override fun onFailure(call: Call<GifModel>, t: Throwable) {
                 mError.value = ErrorEnum.UNABLE_TO_FETCH_DATA
             }
-
         })
-
     }
 
+    /*
+    Method to get the searched query gif results
+     */
     fun getSearchResultGif(query : String, offset : Int) {
         val searchResultGifs = apiInterface?.getSearchedGif(API_KEY, query, offset, LIMIT, LANGUAGE)
 

@@ -15,15 +15,12 @@ class GifViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
     private var mContext : Context = view.context
     private var ivGif : ImageView = view.findViewById(R.id.iv_gif)
-    private var ivFavourite : ImageView = view.findViewById(R.id.iv_favourite)
+    private var ivFavourite : ImageView = view.findViewById(R.id.iv_favorite)
 
     fun bindViewData(gifData: GifUIModel, position: Int) {
-        val requestOption = RequestOptions()
-        requestOption.placeholder(R.drawable.placeholder_img)
-
         ivGif.let {
             Glide.with(mContext)
-                .setDefaultRequestOptions(requestOption)
+                .setDefaultRequestOptions(RequestOptions().placeholder(R.drawable.placeholder_img))
                 .load(gifData.gifUrl)
                 .into(it)
         }

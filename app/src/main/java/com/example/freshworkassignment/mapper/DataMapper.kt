@@ -4,9 +4,13 @@ import com.example.freshworkassignment.db.entity.Favourites
 import com.example.freshworkassignment.model.GifData
 import com.example.freshworkassignment.model.GifUIModel
 
-class MapperRawToUIData {
+class DataMapper {
 
-    fun convertToUiData(gifList: ArrayList<GifData>, gifIdsFromDb: ArrayList<String>): ArrayList<GifUIModel> {
+    /**
+     * convert raw gif data to UI data and marking gifs favorite which are present in the database
+     * params : rawGifList, favorite marked gifIds
+     */
+    fun convertRawToUiData(gifList: ArrayList<GifData>, gifIdsFromDb: ArrayList<String>): ArrayList<GifUIModel> {
         val gifUIModelList = ArrayList<GifUIModel>()
 
         gifList.forEach { gifData ->
@@ -17,16 +21,22 @@ class MapperRawToUIData {
         return gifUIModelList
     }
 
+    /**
+     * convert UI gif data to dao data for insertion in the database
+     */
     fun convertUIToDaoData(gifData : GifUIModel) : Favourites {
         return Favourites(gifData.gifId, gifData.type, gifData.title, gifData.gifUrl, gifData.isFavourite)
     }
 
+    /**
+     * convert dao data to UI data to show favorite gifs
+     */
     fun convertDaoToUIData(list : ArrayList<Favourites>): ArrayList<GifUIModel> {
         val gifUIModelList = ArrayList<GifUIModel>()
 
-        list.forEach { favoutire ->
+        list.forEach { favorite ->
             gifUIModelList.add(
-                GifUIModel(favoutire.gifId, favoutire.title, favoutire.type, favoutire.gifUrl, favoutire.isFavourite))
+                GifUIModel(favorite.gifId, favorite.title, favorite.type, favorite.gifUrl, favorite.isFavourite))
         }
         return gifUIModelList
     }

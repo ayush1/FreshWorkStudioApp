@@ -7,24 +7,18 @@ import retrofit2.http.Query
 
 interface ApiInterface {
 
-    companion object {
-        const val LIMIT = 20
-        const val LANGUAGE = "en"
-        const val API_KEY = "PCn7sbnPQhBBURk1FXlJNVsthCqszPVT"
-    }
-
     @GET("trending")
     fun getTrendingGif(
-        @Query("api_key") apiKey: String = API_KEY,
+        @Query("api_key") apiKey: String,
         @Query("offset") offset: Int,
-        @Query("limit") limit: Int = LIMIT) : Call<GifModel>
+        @Query("limit") limit: Int) : Call<GifModel>
 
     @GET("search")
     fun getSearchedGif(
         @Query("api_key") apiKey: String,
         @Query("q") searchQuery: String,
         @Query("offset") offset: Int,
-        @Query("limit") limit: Int = LIMIT,
-        @Query("lang") languageCode: String = LANGUAGE) : Call<GifModel>
+        @Query("limit") limit: Int,
+        @Query("lang") languageCode: String) : Call<GifModel>
 
 }

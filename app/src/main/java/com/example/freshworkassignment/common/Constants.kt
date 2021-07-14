@@ -7,6 +7,6 @@ class Constants {
     }
 
     companion object {
-        const val TABLE_NAME = "FavouriteTable"
+        const val TABLE_NAME = "FavoriteTable"
     }
 }
