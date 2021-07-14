@@ -4,6 +4,6 @@
     <string name="no_favorites">No favorites yet!!</string>
     <string name="search">Search GIF</string>
     <string name="Trending">Trending</string>
-    <string name="favorite">Favorite</string>
+    <string name="favorite">Favorites</string>
     <string name="no_data_found">No data found</string>
 </resources>

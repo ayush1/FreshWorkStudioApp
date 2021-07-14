@@ -3,7 +3,9 @@ package com.example.freshworkassignment.view
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -68,6 +70,24 @@ class TrendingGifFragment : Fragment(), FavouriteClickCallback, UpdateDataCallba
                 }
                 return false
             }
+        })
+
+        et_search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if(TextUtils.isEmpty(s.toString())) {
+                    trendingGifViewModel?.searchQuery = ""
+                    trendingGifViewModel?.getTrendingGif()
+                }
+            }
+
         })
 
         trendingGifViewModel?.mUIResponse?.observe(viewLifecycleOwner,
