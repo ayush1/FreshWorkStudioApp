@@ -17,7 +17,7 @@
         android:hint="@string/search"
         android:imeOptions="actionSearch"
         android:inputType="text"
-        android:padding="@dimen/dp3" />
+        android:padding="@dimen/dp3"/>
 
     <FrameLayout
         android:id="@+id/fl"
@@ -28,7 +28,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_gif"
             android:layout_width="match_parent"
-            android:layout_height="850dp" />
+            android:layout_height="match_parent" />
 
         <ProgressBar
             android:id="@+id/pg_bar"
@@ -41,6 +41,6 @@
 
     <include
         android:layout_width="match_parent"
-        android:layout_height="850dp"
+        android:layout_height="match_parent"
         layout="@layout/error_layout" />
 </LinearLayout>
