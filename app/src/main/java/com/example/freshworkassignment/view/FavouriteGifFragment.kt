@@ -14,6 +14,7 @@ import com.example.freshworkassignment.adapter.GifAdapter
 import com.example.freshworkassignment.callback.FavouriteClickCallback
 import com.example.freshworkassignment.eventbus.FavouriteEvent
 import com.example.freshworkassignment.eventbus.UpdateDataEvent
+import com.example.freshworkassignment.itemdecorator.ItemOffsetDecoration
 import com.example.freshworkassignment.model.GifUIModel
 import com.example.freshworkassignment.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.error_layout.*
@@ -68,8 +69,11 @@ class FavouriteGifFragment : Fragment(), FavouriteClickCallback {
 
     private fun initRecyclerView() {
         val manager =  GridLayoutManager(mContext, 2)
+        val spacing = resources.getDimensionPixelSize(R.dimen.dp15) / 2
         rv_grid_gif.apply {
             layoutManager = manager
+            setPadding(spacing, spacing, spacing, spacing)
+            addItemDecoration(ItemOffsetDecoration(spacing))
             hasFixedSize()
             mAdapter = GifAdapter()
             adapter = mAdapter

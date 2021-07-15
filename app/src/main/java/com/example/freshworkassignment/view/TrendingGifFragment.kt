@@ -84,6 +84,7 @@ class TrendingGifFragment : Fragment(), FavouriteClickCallback, UpdateDataCallba
             override fun afterTextChanged(s: Editable?) {
                 if(TextUtils.isEmpty(s.toString())) {
                     trendingGifViewModel?.searchQuery = ""
+                    mGifListData.clear()
                     trendingGifViewModel?.getTrendingGif()
                 }
             }
