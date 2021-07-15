@@ -97,7 +97,7 @@ class FavouriteGifFragment : Fragment(), FavouriteClickCallback {
         rv_grid_gif.visibility = View.GONE
         ll_error.visibility = View.VISIBLE
         iv_error.setImageDrawable(mContext?.let { ContextCompat.getDrawable(it, R.drawable.img_no_favorite) })
-        tv_error_title.text = getString(R.string.no_favorites)
+        tv_error_title.text = getString(R.string.no_favourites)
         tv_error_msg.text = msg
     }
 

@@ -12,7 +12,7 @@ class Constants {
     }
 
     enum class EmptyEnum (val msg : String) {
-        NO_FAVORITE_DATA_FOUND("You haven't marked any favorites"),
+        NO_FAVORITE_DATA_FOUND("You haven't marked any favourites"),
         NO_SEARCH_DATA_FOUND("Please try different search")
     }
 
