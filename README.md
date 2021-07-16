@@ -8,7 +8,7 @@ An Android app to display trending Gifs and user can search any Gif as well as m
 
 **App Screenshots**
 
-![Trending](docs/Trending.jpeg) ![Favourites](docs/favourites.jpeg)
+![Trending](docs/trending.jpg) ![search](docs/search.jpg)
 
 **Test Coverage**
 
